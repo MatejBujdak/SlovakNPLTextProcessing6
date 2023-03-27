@@ -4,13 +4,10 @@ import sk.textprocessor.arguments.ArgumentParser;
 import sk.textprocessor.output.FileHandler;
 import cz.cuni.mff.ufal.morphodita.*;
 
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.charset.Charset;
 import java.util.*;
-
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,12 +66,12 @@ public class TextProcesses {
                 dictionary = skr.isAbbreviation(word);
             }
 
-            if ((ch.matches("([!?.])(\\s)[A-Z]")) && !dictionary && (input.substring(i-1,i).matches("[a-z]") )) {
+            if ((ch.matches("[!?.]\\s[A-Z]")) && !dictionary && (input.substring(i-1,i).matches("[a-z]") )) {
                 sentences.add(input.substring(sentenceLastChar, i + 1));
                 sentenceLastChar = i + 1;
             }
         }
-
+        sentences.add(input.substring(sentenceLastChar, input.length()));
         String[] sentenceArray = new String[sentences.size()];
         sentenceArray = sentences.toArray(sentenceArray);
 
@@ -123,8 +120,6 @@ public class TextProcesses {
 
 
 
-
-
     public LinkedHashMap<String, String> analyze(String text) throws Exception {
 
         String modelPath = "src/taggers/slovak-morfflex-pdt-170914.tagger";
@@ -157,14 +152,6 @@ public class TextProcesses {
 
         return tags;
     }
-
-
-
-
-
-
-
-
 
     public String convertProcessText(String[] strings) {
         StringBuilder sb = new StringBuilder();
