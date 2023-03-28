@@ -118,7 +118,7 @@ public class TextProcesses {
         String[] sentenceArray = new String[sentences.size()];
         sentenceArray = sentences.toArray(sentenceArray);
 
-
+        //lowercasing
         if(ArgumentParser.isLowerCasing()){
             for (int i = 0; i < sentenceArray.length; i++) {
                 sentenceArray[i] = sentenceArray[i].toLowerCase();
