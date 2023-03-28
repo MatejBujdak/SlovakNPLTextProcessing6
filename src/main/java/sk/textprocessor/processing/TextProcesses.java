@@ -1,16 +1,13 @@
 package sk.textprocessor.processing;
 
 import sk.textprocessor.arguments.ArgumentParser;
-import sk.textprocessor.output.FileHandler;
+
 import cz.cuni.mff.ufal.morphodita.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.nio.charset.Charset;
+
 import java.util.*;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 
 public class TextProcesses {
@@ -19,21 +16,67 @@ public class TextProcesses {
     //    tokenization
     public String[] tokenize(String text){
 
+        boolean comma = false;
+        String stacked_word = "";
         String output = "";
         String[] array;
         String punctuation = ".,<>/\\\"\'}{[]|!@#$%^&*()_-=+:;?`~";
-        for (char s: punctuation.toCharArray()){
-            String charakter = Character.toString(s);
-            text = text.replace(charakter," "+charakter+" ");
+        for(int i = 0; i < text.length();i++) {
+
+            boolean stack = false;
+
+            String current_char = text.substring(i, i + 1);
+
+            if (((current_char.matches("[\\d,]")) && (text.substring(i + 1, i + 2).matches("[\\d,]"))) &&
+                    !(((current_char.equals(","))) && (text.substring(i + 1, i + 2).equals(",")
+                    )) && !(current_char.substring(0, 1).equals(",") && stacked_word.isEmpty())
+                     ) {
+
+                stack = true;
+
+                if(comma && current_char.equals(",")){  //kontroluje, či sa nevyskytuje v stack_work 2. čiarka
+                    stack = false;
+                    comma = false;
+                }else if(current_char.equals(",")){
+                    comma = true;
+                    stacked_word += current_char;
+                }else{
+                    stacked_word += current_char;
+                }
+
+
+            }
+
+            if (stack) {
+                continue;
+            } else if (!stacked_word.isEmpty()) {
+                output += " " + stacked_word;
+                stacked_word = "";
+                comma = false;
+                if (current_char.matches("\\d")) output += current_char + " ";
+                else output += " " + current_char + " ";
+            } else if (punctuation.indexOf(current_char) != -1) {
+                output += " " + current_char + " ";
+            } else {
+                output += current_char;
+            }
+
         }
 
-        array = text.split(" ");
+        String result = "";
 
-        // prejdeme cez kazdy prvok a odstranime potencialne space okolo punctuation
-        for(int i = 0; i < array.length; i++) {
-            array[i] = array[i].replaceAll("\\s+","").trim();
+        //odstráni v kóde duplicitne medzeri
+        for(int i = 0; i < output.length(); i++) {
+            if(output.substring(i,i+1).equals(" ") && output.substring(i+1,i+2).equals(" ")){
+                continue;
+            }
+            result += output.substring(i,i+1);
         }
 
+        //rozdeli text ked je tam medzera
+        array = result.trim().split(" ");
+
+        //lowercasing
         if(ArgumentParser.isLowerCasing()){
             for (int i = 0; i < array.length; i++) {
                 array[i] = array[i].toLowerCase();
