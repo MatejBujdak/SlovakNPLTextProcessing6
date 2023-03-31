@@ -38,7 +38,7 @@ public class ArgumentParser {
     @Parameter(names = "-change", description = "Change file")
     private static boolean changeFile = false;
 
-    @Parameter(names = "-newFile", description = "Tokenize text")
+    @Parameter(names = "-newFile", description = "Create new file")
     private static String newFile = "";
 
 //  Jcommander instance

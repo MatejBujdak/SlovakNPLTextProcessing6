@@ -109,7 +109,7 @@ public class TextProcesses {
                 dictionary = skr.isAbbreviation(word);
             }
 
-            if ((ch.matches("[!?.]\\s[A-Z]")) && !dictionary && (input.substring(i-1,i).matches("[a-z]") )) {
+            if ((ch.matches("[!?.]\\s[[A-Z\\u00C0-\\u00FF]]")) && !dictionary && (input.substring(i-1,i).matches("[[a-z\\u00C0-\\u00FF]]") )) {
                 sentences.add(input.substring(sentenceLastChar, i + 1));
                 sentenceLastChar = i + 1;
             }
@@ -121,7 +121,7 @@ public class TextProcesses {
         //lowercasing
         if(ArgumentParser.isLowerCasing()){
             for (int i = 0; i < sentenceArray.length; i++) {
-                sentenceArray[i] = sentenceArray[i].toLowerCase();
+                sentenceArray[i] = sentenceArray[i].toLowerCase().trim();
             }
         }
 
