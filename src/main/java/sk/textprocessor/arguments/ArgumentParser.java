@@ -3,11 +3,9 @@ package sk.textprocessor.arguments;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
-import org.w3c.dom.Text;
 import sk.textprocessor.exceptions.InvalidParametersCombinationException;
 import sk.textprocessor.exceptions.InvalidTextProcessingTypeException;
 import sk.textprocessor.exceptions.UnknownParametersException;
-import sk.textprocessor.processing.TextProcesses;
 
 public class ArgumentParser {
     TextProcesses TextProcesses = new TextProcesses();
