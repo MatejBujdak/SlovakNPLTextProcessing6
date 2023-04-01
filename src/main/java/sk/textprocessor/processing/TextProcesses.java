@@ -109,19 +109,19 @@ public class TextProcesses {
                 dictionary = skr.isAbbreviation(word);
             }
 
-            if ((ch.matches("[!?.]\\s[[A-Z\\u00C0-\\u00FF]]")) && !dictionary && (input.substring(i-1,i).matches("[[a-z\\u00C0-\\u00FF]]") )) {
-                sentences.add(input.substring(sentenceLastChar, i + 1));
+            if ((ch.matches("[!?.\"\']\\s[ŠČŤŽÝÁÍÉÚÄÔŇĚÉŔĽ\"\'[A-Z]]")) && !dictionary && !input.substring(i-1,i).matches("[\\d]") ) {
+                sentences.add(input.substring(sentenceLastChar, i + 1).trim());
                 sentenceLastChar = i + 1;
             }
         }
-        sentences.add(input.substring(sentenceLastChar, input.length()));
+        sentences.add(input.substring(sentenceLastChar, input.length()).trim());
         String[] sentenceArray = new String[sentences.size()];
         sentenceArray = sentences.toArray(sentenceArray);
 
         //lowercasing
         if(ArgumentParser.isLowerCasing()){
             for (int i = 0; i < sentenceArray.length; i++) {
-                sentenceArray[i] = sentenceArray[i].toLowerCase().trim();
+                sentenceArray[i] = sentenceArray[i].toLowerCase();
             }
         }
 
